@@ -15,3 +15,10 @@ def get_step_by_step_instructions(prompt) -> str:
         input=prompt,
     )
     return response.output_text
+def get_manim_animation_output(prompt) -> str:
+    response = openai.responses.create(
+        model="gpt-4o-mini",
+        instructions="Write the manim code for the following problem. To ensure proper animation style, all boxes should be properly spaced from each other and all labels should also be properly spaced.",
+        input=prompt,
+    )
+    return response.output_text

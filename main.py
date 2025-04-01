@@ -1,6 +1,8 @@
 from PromptHandling.llm_query import get_coding_LLM_response
 from PromptHandling.llm_query import get_step_by_step_instructions
+from PromptHandling.llm_query import get_manim_animation_output
 from PromptHandling.prompt_parsing import parse_output
+from PromptHandling.prompt_parsing import get_video_code
 from dotenv import load_dotenv
 import openai
 import os
@@ -19,6 +21,12 @@ def main():
 
     # Get step by step instructions for coding problem
     raw_output = get_step_by_step_instructions(generated_code)
+
+    # For now, just get send raw_output to LLM for manim code
+    manim_code = get_manim_animation_output(raw_output)
+    generated_code = get_video_code(manim_code)
+
+    print(generated_code)
 
     
 

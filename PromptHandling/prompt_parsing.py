@@ -16,3 +16,10 @@ def remove_excess_lines(raw_output):
     # Remove the first and last lines if they are empty or contain only whitespace
     raw_output = raw_output.replace("```", "").replace("python", "")
     return raw_output.strip().splitlines()
+
+def get_video_code(raw_output):
+    start = raw_output.find("```python")
+    end = raw_output.find("```", start + 1)
+    if start != -1 and end != -1:
+        return raw_output[start + len("```python"):end].strip()
+    return None
