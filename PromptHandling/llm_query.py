@@ -9,9 +9,17 @@ def get_coding_LLM_response(prompt) -> str:
     return response.output_text
 
 def get_step_by_step_instructions(prompt, test_case) -> str:
+    instruction = (
+        "You're an educational animation planner. Given a Python function and a test case, "
+        "describe what the animation should show at each step of execution. Use clear steps like: "
+        "'Step 1: Show the input array at the top center. Step 2: Highlight index 0 with a yellow box.' "
+        "Use concrete animations such as 'highlight', 'move arrow', 'show variable update', 'fade in/out'. "
+        "Each step should begin with 'Step X:' and be clearly visualizable by a programmer with Manim experience. "
+        "Avoid long descriptions—stick to simple, clear, frame-by-frame visuals."
+    )
     response = openai.responses.create(
         model="gpt-4o-mini",
-        instructions="Suppose you are an animator's assistant which specialises in education. You are tasked with writing code which shows exactly what is going on given a method and some test variables. The animator needs you to give step by step instructions on what digital movements should be going on to best make this animation work. By that, I mean you should state EXACTLY what should be happening at each step and telling me HOW it should be animated. Start each step with ""Step X:"" where X is the step number. Utilize the given test case",
+        instructions = instruction,
         input= prompt + "\n" + test_case,
     )
     return response.output_text
