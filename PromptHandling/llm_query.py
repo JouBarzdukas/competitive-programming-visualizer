@@ -47,18 +47,11 @@ def get_animation_DSL(prompt) -> str:
     )
     return response.output_text
 
-
-
-
-
 def get_manim_animation_output(prompt) -> str:
-    instruction = (
-        "You're a Manim animator. Given a step-by-step animation plan, "
-        "write the Manim code to visualize it. Use clear, concise code with proper spacing. "
-        "Ensure all boxes and labels are properly spaced. No SVGs. Include arrows pointing to the current code location. "
-        "Write all code in full, ensuring everything is boxed and animated. "
-        "Avoid overlapping elements."
-    )
+    instruction=(
+            "Convert the following DSL into full Manim code using Python. Use rectangles for arrays, arrows for pointers, "
+            "Text for labels, and properly position everything. Do not explain. Output only valid code."
+        )
     response = openai.responses.create(
         model="gpt-4o-mini",
         instructions=instruction,

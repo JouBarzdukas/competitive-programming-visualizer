@@ -1,5 +1,6 @@
 from PromptHandling.llm_query import get_coding_LLM_response
 from PromptHandling.llm_query import get_step_by_step_instructions
+from PromptHandling.llm_query import get_animation_DSL
 from PromptHandling.llm_query import get_manim_animation_output
 from PromptHandling.prompt_parsing import parse_output
 from PromptHandling.prompt_parsing import get_video_code
@@ -15,16 +16,26 @@ def main():
     additional_instructions = "Complete the following code: " #Might add some later, but system is doing similar thing (in LLM_query)
     prompt = additional_instructions + inputs
 
+    print("Solving Question")
     # Ask how to do coding problem
     raw_output = get_coding_LLM_response(prompt)
     generated_code, test_case = parse_output(raw_output)
 
+    print("Solving Question | FINISHED")
+    print("Getting step by step instructions")
     # Get step by step instructions for coding problem
     raw_output = get_step_by_step_instructions(generated_code, test_case)
 
-    # For now, just get send raw_output to LLM for manim code
-    manim_code = get_manim_animation_output(raw_output)
+    print("Step by Step Instructions | FINISHED")
+    print("Generating Animation DSL")
+    # Get animation DSL from step by step instructions
+    animation_DSL = get_animation_DSL(raw_output)
+
+    print("Animation DSL | FINISHED")
+    print("Generating Manim Code")
+    manim_code = get_manim_animation_output(animation_DSL)
     generated_code = get_video_code(manim_code)
+
 
     # Save the generated code to a temporary file
     with open("generated_manim_script.py", "w") as f:
