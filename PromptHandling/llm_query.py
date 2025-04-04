@@ -1,9 +1,17 @@
 import openai
 
 def get_coding_LLM_response(prompt) -> str:
+    instruction = (
+        "You're an expert competitive programmer. "
+        " Write a concise Python function that solves the problem below. "
+        "Only include code (no comments or explanation). "
+        "After the function, provide one valid test case using the "
+        "same variable names as in the function. "
+        "Example format: 's = [1, 2, 3], k = 2'."
+    )
     response = openai.responses.create(
         model="gpt-4o-mini",
-        instructions="You're an expert competitive programmer. Write a concise Python function that solves the problem below. Only include code (no comments or explanation). After the function, provide one valid test case using the same variable names as in the function. Example format: 's = [1, 2, 3], k = 2'.",
+        instructions=instruction,
         input=prompt,
     )
     return response.output_text
@@ -23,10 +31,18 @@ def get_step_by_step_instructions(prompt, test_case) -> str:
         input= prompt + "\n" + test_case,
     )
     return response.output_text
+
 def get_manim_animation_output(prompt) -> str:
+    instruction = (
+        "You're a Manim animator. Given a step-by-step animation plan, "
+        "write the Manim code to visualize it. Use clear, concise code with proper spacing. "
+        "Ensure all boxes and labels are properly spaced. No SVGs. Include arrows pointing to the current code location. "
+        "Write all code in full, ensuring everything is boxed and animated. "
+        "Avoid overlapping elements."
+    )
     response = openai.responses.create(
         model="gpt-4o-mini",
-        instructions="Write the manim code for the following problem. To ensure proper animation style, all boxes should be properly spaced from each other and all labels should also be properly spaced. Utilize no SVG, and ensure that there is always an arrow pointing at where you current are in the code. Write all code out in full. Things should be BOXED and ANIMATED. Do not include any explanation. Be aware of things overlapping and put things in the right place.",
+        instructions=instruction,
         input=prompt,
     )
     return response.output_text
