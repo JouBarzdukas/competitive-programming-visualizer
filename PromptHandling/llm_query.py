@@ -48,10 +48,17 @@ def get_animation_DSL(prompt) -> str:
     return response.output_text
 
 def get_manim_animation_output(prompt) -> str:
-    instruction=(
-            "Convert the following DSL into full Manim code using Python. Use rectangles for arrays, arrows for pointers, "
-            "Text for labels, and properly position everything. Do not explain. Output only valid code."
-        )
+    instruction = (
+        "Convert the following DSL into full Manim (Python) code. "
+        "Use rectangles for arrays, arrows for pointers, and Text for labels. "
+        "Use self.play(...) with animations like FadeIn, Write, or Transform for every new visual element. "
+        "Avoid self.add(...) unless absolutely necessary. Animate step-by-step transitions. "
+        "Do not reuse positions — avoid placing multiple elements at ORIGIN. "
+        "Use `.move_to(...)`, `UP`, `DOWN`, `LEFT`, `RIGHT`, or `next_to(...)` to avoid overlap. "
+        "Remove or fade out old text when adding new explanatory text. "
+        "Avoid ambiguous conditionals (e.g., 'if position:'); use 'if position is not None' instead. "
+        "Do not include any comments or explanation. Output only valid Python Manim code."
+    )
     response = openai.responses.create(
         model="gpt-4o-mini",
         instructions=instruction,
